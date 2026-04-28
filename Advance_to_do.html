@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced To-Do App</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6fb;
+            color: #222;
+            transition: 0.3s;
+        }
+
+        .app {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-input-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .task-input-row input {
+            flex: 1;
+        }
+
+        input,
+        button {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #1f3c88;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #162d66;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            align-items: center;
+        }
+
+        .filters button {
+            margin-top: 0;
+            padding: 8px 14px;
+            background-color: #e8ecf8;
+            color: #1f3c88;
+        }
+
+        .filters button.active {
+            background-color: #1f3c88;
+            color: white;
+        }
+
+        #taskList {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        #taskList li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fc;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .task-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: 0.2s;
+            color: #333;
+            padding: 0;
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.15);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .delete-btn:hover {
+            color: #ff4d4d;
+            background-color: rgba(255, 0, 0, 0.1);
+        }
+
+        .dark {
+            background-color: #121212;
+            color: #e4e6eb;
+        }
+
+        .dark .card {
+            background-color: #1e1e1e;
+        }
+
+        .dark input {
+            background-color: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+        }
+
+        .dark #taskList li {
+            background-color: #242424;
+        }
+
+        .dark button {
+            background-color: #2d4fd7;
+        }
+
+        .dark button:hover {
+            background-color: #1f3c88;
+        }
+
+        .dark .filters button {
+            background-color: #2d2d2d;
+            color: white;
+        }
+
+        .dark .filters button.active {
+            background-color: #4f8cff;
+        }
+
+        .dark .icon-btn {
+            color: #ddd;
+        }
+
+        .dark .icon-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark .delete-btn:hover {
+            color: #ff6b6b;
+        }
+
+        #searchInput {
+            margin-top: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        select { 
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background-color: white;
+            font-size: 14px;
+        }
+
+        .dark select {
+            background-color: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+        }
+
+        .priority-badge {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .priority-high {
+            background-color: #ffe5e5;
+            color: #d90429;
+        }
+
+        .priority-medium {
+            background-color: #fff4db;
+            color: #b7791f;
+        }
+
+        .priority-low {
+            background-color: #e6f7ec;
+            color: #2f855a;
+        }
+
+        .dark .priority-high {
+            background-color: rgba(255, 77, 77, 0.15);
+            color: #ff8a8a;
+        }
+
+        .dark .priority-medium {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #ffd166;
+        }
+
+        .dark .priority-low {
+            background-color: rgba(72, 187, 120, 0.15);
+            color: #7bd88f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+
+        <section class="card">
+            <div class="top-bar">
+                <h1>Advanced To-Do App</h1>
+                <button id="darkModeBtn">🌙</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Add New Task</h2>
+
+            <div class="task-input-row">
+                <input type="text" id="taskInput" placeholder="Enter a task">
+
+                <select id="priorityInput">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+
+                <button id="addTaskBtn">Add Task</button>
+            </div>
+
+            <input type="text" id="searchInput" placeholder="🔍 Search tasks...">
+
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+                <button id="clearCompletedBtn">Clear Completed</button>
+            </div>
+
+            <p id="taskCounter">0 tasks left</p>
+
+            <ul id="taskList"></ul>
+        </section>
+
+    </div>
+
+    <script>
+        let tasks = [];
+        let currentFilter = "all";
+        let searchText = "";
+
+        const taskInput = document.getElementById("taskInput");
+        const taskList = document.getElementById("taskList");
+        const priorityInput = document.getElementById("priorityInput");
+
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function loadTasks() {
+            tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        }
+
+        function renderTasks() {
+            taskList.innerHTML = "";
+
+            let filtered = tasks;
+
+            // FILTERS
+            if (currentFilter === "active") {
+                filtered = filtered.filter(t => !t.completed);
+            }
+
+            if (currentFilter === "completed") {
+                filtered = filtered.filter(t => t.completed);
+            }
+
+            // SEARCH
+            if (searchText !== "") {
+                filtered = filtered.filter(t =>
+                    t.text.toLowerCase().includes(searchText.toLowerCase())
+                );
+            }
+
+            // EMPTY STATE
+            if (filtered.length === 0) {
+                taskList.innerHTML = "<p>No tasks found</p>";
+                updateCounter();
+                return;
+            }
+
+            filtered.forEach(task => {
+                let li = document.createElement("li");
+
+                // TEXT
+                let span = document.createElement("span");
+                span.innerText = task.text;
+                span.className = "task-text";
+
+                if (task.completed) span.classList.add("completed");
+
+                span.onclick = () => {
+                    task.completed = !task.completed;
+                    saveTasks();
+                    renderTasks();
+                };
+
+                // PRIORITY BADGE
+                let badge = document.createElement("span");
+                let priority = task.priority || "Low";
+
+                badge.innerText = priority;
+                badge.className = "priority-badge priority-" + priority.toLowerCase();
+
+                // TEXT + BADGE WRAP
+                let textWrap = document.createElement("div");
+                textWrap.style.display = "flex";
+                textWrap.style.alignItems = "center";
+                textWrap.style.gap = "8px";
+                textWrap.style.flex = "1";
+
+                textWrap.appendChild(span);
+                textWrap.appendChild(badge);
+
+                // ACTIONS
+                let actions = document.createElement("div");
+                actions.className = "task-actions";
+
+                // EDIT BUTTON
+                let editBtn = document.createElement("button");
+                editBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706l-1.793 1.793-2.647-2.647L12.855.999a.5.5 0 0 1 .707 0l1.94 1.94z"/>
+                        <path d="M11.207 3.207 3 11.414V14h2.586l8.207-8.207-2.586-2.586z"/>
+                    </svg>
+                `;
+                editBtn.className = "icon-btn";
+
+                editBtn.onclick = () => {
+                    let newText = prompt("Edit task:", task.text);
+                    if (newText && newText.trim() !== "") {
+                        task.text = newText.trim();
+                        saveTasks();
+                        renderTasks();
+                    }
+                };
+
+                // DELETE BUTTON
+                let deleteBtn = document.createElement("button");
+                deleteBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm4 0A.5.5 0 0 1 10 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 1 1 0-2H5.5l1-1h3l1 1H13.5a1 1 0 0 1 1 1zM4 4v9a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4H4z"/>
+                    </svg>
+                `;
+                deleteBtn.className = "icon-btn delete-btn";
+
+                deleteBtn.onclick = () => {
+                    tasks = tasks.filter(t => t !== task);
+                    saveTasks();
+                    renderTasks();
+                };
+
+                actions.appendChild(editBtn);
+                actions.appendChild(deleteBtn);
+
+                li.appendChild(textWrap);
+                li.appendChild(actions);
+                taskList.appendChild(li);
+            });
+
+            updateCounter();
+        }
+
+        function updateCounter() {
+            document.getElementById("taskCounter").innerText =
+                tasks.filter(t => !t.completed).length + " tasks left";
+        }
+
+        // ADD TASK
+        document.getElementById("addTaskBtn").onclick = () => {
+            let text = taskInput.value.trim();
+            if (!text) return alert("Enter task!");
+
+            tasks.push({
+                text,
+                completed: false,
+                priority: priorityInput.value
+            });
+
+            taskInput.value = "";
+            priorityInput.value = "Low";
+
+            saveTasks();
+            renderTasks();
+        };
+
+        // ENTER KEY FIX
+        taskInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("addTaskBtn").click();
+            }
+        });
+
+        // CLEAR COMPLETED
+        document.getElementById("clearCompletedBtn").onclick = () => {
+            tasks = tasks.filter(t => !t.completed);
+            saveTasks();
+            renderTasks();
+        };
+
+        // FILTER BUTTONS
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentFilter = btn.dataset.filter;
+                renderTasks();
+            };
+        });
+
+        // DARK MODE
+        document.getElementById("darkModeBtn").onclick = () => {
+            document.body.classList.toggle("dark");
+            document.getElementById("darkModeBtn").innerText =
+                document.body.classList.contains("dark") ? "☀️" : "🌙";
+        };
+
+        // SEARCH
+        document.getElementById("searchInput").addEventListener("input", function () {
+            searchText = this.value.trim();
+            renderTasks();
+        });
+
+        // INIT
+        loadTasks();
+        renderTasks();
+    </script>
+
+</body>
+</html>

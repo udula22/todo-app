@@ -1,0 +1,521 @@
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', Arial, sans-serif;
+            background-color: #f0f2fa;
+            color: #1a1a2e;
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        .app {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 2.5rem 1rem 4rem;
+        }
+
+        body.dark {
+            background-color: #111827;
+            color: #f1f5f9;
+        }
+
+        body.dark .card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark input,
+        body.dark select {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+
+        body.dark input::placeholder {
+            color: #64748b;
+        }
+
+        body.dark .task-item {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark .task-item:hover {
+            border-color: #475569;
+        }
+
+        body.dark .stat {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark .filter-btn {
+            background-color: #1e293b;
+            color: #94a3b8;
+            border-color: #334155;
+        }
+
+        body.dark .filter-btn.active {
+            background-color: #3b5bdb;
+            color: white;
+            border-color: #3b5bdb;
+        }
+
+        body.dark .dark-btn {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+
+        body.dark .progress-track {
+            background-color: #334155;
+        }
+
+        body.dark .sort-sel {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+
+        body.dark .badge-high {
+            background-color: rgba(220, 38, 38, 0.2);
+            color: #fca5a5;
+        }
+
+        body.dark .badge-medium {
+            background-color: rgba(217, 119, 6, 0.2);
+            color: #fcd34d;
+        }
+
+        body.dark .badge-low {
+            background-color: rgba(22, 163, 74, 0.2);
+            color: #86efac;
+        }
+
+        body.dark .icon-btn {
+            color: #94a3b8;
+        }
+
+        body.dark .icon-btn:hover {
+            background-color: #334155;
+            color: #f1f5f9;
+        }
+
+        body.dark .icon-btn.del:hover {
+            background-color: rgba(220, 38, 38, 0.15);
+            color: #fca5a5;
+        }
+
+        body.dark .task-text.done {
+            color: #475569;
+        }
+
+        body.dark .clear-btn {
+            color: #94a3b8;
+            border-color: #334155;
+        }
+
+        body.dark .clear-btn:hover {
+            color: #fca5a5;
+            border-color: #fca5a5;
+        }
+
+        body.dark .empty {
+            color: #475569;
+        }
+
+        body.dark .stat-num {
+            color: #93c5fd;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.75rem;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #1a1a2e;
+            letter-spacing: -0.5px;
+        }
+
+        body.dark .header h1 {
+            color: #f1f5f9;
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .dark-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'DM Sans', Arial, sans-serif;
+            color: #475569;
+            transition: all 0.2s;
+        }
+
+        .dark-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat {
+            background: white;
+            border-radius: 14px;
+            padding: 14px 16px;
+            border: 1px solid #e8ecf8;
+            transition: background 0.3s, border 0.3s;
+        }
+
+        .stat-num {
+            font-size: 26px;
+            font-weight: 600;
+            color: #1f3c88;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .progress-wrap {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+        }
+
+        .progress-track {
+            height: 6px;
+            background: #e8ecf8;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1f3c88, #4f8cff);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid #e8ecf8;
+            margin-bottom: 1rem;
+            transition: background 0.3s, border 0.3s;
+        }
+
+        .add-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"],
+        select,
+        input[type="date"] {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #1a1a2e;
+            font-size: 14px;
+            font-family: 'DM Sans', Arial, sans-serif;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        input[type="date"]:focus {
+            border-color: #1f3c88;
+        }
+
+        #taskInput {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        #searchInput {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .add-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: #1f3c88;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'DM Sans', Arial, sans-serif;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .add-btn:hover {
+            background: #162d66;
+        }
+
+        .add-btn:active {
+            transform: scale(0.97);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            font-size: 13px;
+            font-family: 'DM Sans', Arial, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .filter-btn.active {
+            background: #1f3c88;
+            color: white;
+            border-color: #1f3c88;
+        }
+
+        .clear-btn {
+            margin-left: auto;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid #e2e8f0;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 13px;
+            font-family: 'DM Sans', Arial, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clear-btn:hover {
+            color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .sort-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .sort-label {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .sort-sel {
+            padding: 5px 10px;
+            font-size: 13px;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .task-item {
+            background: white;
+            border: 1px solid #e8ecf8;
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border 0.2s, background 0.3s;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .task-item:hover {
+            border-color: #c7d2fe;
+        }
+
+        .task-item.overdue {
+            border-left: 3px solid #dc2626;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .check-btn {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1.5px solid #cbd5e1;
+            background: transparent;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .check-btn:hover {
+            border-color: #1f3c88;
+        }
+
+        .check-btn.done {
+            background: #1f3c88;
+            border-color: #1f3c88;
+        }
+
+        .check-btn.done::after {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 9px;
+            border: 2px solid white;
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg) translateY(-1px);
+        }
+
+        .task-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-text {
+            font-size: 14px;
+            color: #1a1a2e;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        body.dark .task-text {
+            color: #e2e8f0;
+        }
+
+        .task-text.done {
+            text-decoration: line-through;
+            color: #94a3b8;
+        }
+
+        .task-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 2px 9px;
+            border-radius: 999px;
+            font-weight: 500;
+        }
+
+        .badge-high   { background: #fee2e2; color: #991b1b; }
+        .badge-medium { background: #fef3c7; color: #92400e; }
+        .badge-low    { background: #dcfce7; color: #166534; }
+
+        .date-tag {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .overdue-tag {
+            font-size: 11px;
+            color: #dc2626;
+            font-weight: 500;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .icon-btn.del:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .empty-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
