@@ -154,12 +154,27 @@
                     </svg>
                 `;
                 editBtn.onclick = () => {
-                    const newText = prompt("Edit task:", task.text);
-                    if (newText && newText.trim() !== "") {
-                        task.text = newText.trim();
-                        saveTasks();
+                    textEl.contentEditable = "true";
+                    textEl.focus();
+                    const range = document.createRange();
+                    range.selectNodeContents(textEl);
+                    window.getSelection().removeAllRanges();
+                    window.getSelection().addRange(range);
+
+                    textEl.onblur = () => {
+                        const newText = textEl.textContent.trim();
+                        if(newText) {
+                            task.text = newText;
+                            saveTasks();
+                        }
+                        textEl.contentEditable = "flase";
                         renderTasks();
-                    }
+                    };
+
+                    textEl.onkeydown = (e) => {
+                        if (e.key === "Enter") {e.preventDefault(); textEl.blur();}
+                        if (e.key === "Escape") {textEl.contentEditable = "false"; renderTasks(); }
+                    };
                 };
 
                 const delBtn = document.createElement("button");
@@ -172,7 +187,7 @@
                     </svg>
                 `;
                 delBtn.onclick = () => {
-                    tasks = tasks.filter(t => t !== task);
+                    tasks = tasks.filter(t => t.id !== task.id);
                     saveTasks();
                     renderTasks();
                 };
